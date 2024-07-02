@@ -53,3 +53,4 @@ php/config.php
 php/db.php
 node_modules
 build
+package-lock.json
