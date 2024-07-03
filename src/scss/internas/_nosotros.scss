@@ -1,0 +1,12 @@
+.contenido-nosotros{
+    display: grid;
+    column-gap: 3rem;
+    margin-bottom: 10rem;
+    @include tablet{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+blockquote{
+    font-weight: $black;
+}
