@@ -15,7 +15,7 @@
                 </a>
 
                 <div class="mobile-menu">
-                    <img src="build/img/barras.svg" alt="boton menu">
+                    <img src="/build/img/barras.svg" alt="boton menu">
                 </div>
 
                 <div class="derecha">
