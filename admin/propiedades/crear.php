@@ -3,6 +3,10 @@
     require '../../includes/config/database.php';
     $db = conectarDB();
 
+    // Arreglo con mensaje de errores
+    $errores = [];
+
+    // Ejecutar el código despues de que el usuario envia el formulario completo
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         // echo "<pre>";
         // var_dump($_POST);
@@ -16,15 +20,51 @@
         $estacionamiento = $_POST['estacionamiento'];
         $vendedores_id = $_POST['vendedor'];
 
-        // Insertar en la base de datos
-        $query = " INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedores_id) VALUES ( '$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$vendedores_id' )";
+        if(!$titulo){
+            $errores[] = "Debes añadir un titulo";
+        }
 
-        echo $query;
+        if(!$precio){
+            $errores[] = "El precio es obligatorio";
+        }
 
-        $resultado = mysqli_query($db, $query);
+        if(strlen ($descripcion) < 50 ){
+            $errores[] = "La descripción no puede estar vacía y debe tener al menos 50 caracteres";
+        }
 
-        if($resultado) {
-            echo "Insertado correctamente";
+        if(!$habitaciones){
+            $errores[] = "El número de habitaciones es obligatorio";
+        }
+
+        if(!$wc){
+            $errores[] = "El número de baños es obligatorio";
+        }
+
+        if(!$estacionamiento){
+            $errores[] = "El número de estacionamientos es obligatorio";
+        }
+
+        if(!$vendedores_id){
+            $errores[] = "Elige un vendedor";
+        }
+
+        // echo "<pre>";
+        // var_dump($errores);
+        // echo "</pre>";
+
+        // Revisa que el array de errores este vacio
+        if(empty($errores)) {
+            
+            // Insertar en la base de datos
+            $query = " INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedores_idVALUES ( '$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$vendedores_id' )";
+            
+            echo $query;
+            
+            $resultado = mysqli_query($db, $query);
+            
+            if($resultado) {
+                echo "Insertado correctamente";
+            }
         }
     }
 
@@ -73,6 +113,7 @@
                 <legend>Vendedor</legend>
 
                 <select name="vendedor">
+                    <option value="">-- Seleccione --</option>
                     <option value="1">Fernanda</option>
                     <option value="2">Luis</option>
                 </select>
