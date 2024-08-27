@@ -12,6 +12,11 @@
     require '../../includes/config/database.php';
     $db = conectarDB();
 
+    // Obtener los datos de la propiedad
+    $consulta = "SELECT * FROM propiedades WHERE id = $id";
+    $resultado = mysqli_query($db, $consulta);
+    $propiedad = mysqli_fetch_assoc($resultado);
+
     // Consultar para obtener los vendedores
     $consulta = "SELECT * FROM vendedores";
     $resultado = mysqli_query($db, $consulta);
@@ -19,14 +24,14 @@
     // Arreglo con mensaje de errores
     $errores = [];
 
-    $titulo = '';
-    $precio = '';
-    $descripcion = '';
-    $habitaciones = '';
-    $wc = '';
-    $estacionamiento = '';
-    $creado = '';
-    $vendedores_id = '';
+    $titulo = $propiedad['titulo'];
+    $precio = $propiedad['precio'];
+    $descripcion = $propiedad['descripcion'];
+    $habitaciones = $propiedad['habitaciones'];
+    $wc = $propiedad['wc'];
+    $estacionamiento = $propiedad['estacionamiento'];
+    $vendedores_id = $propiedad['vendedores_id'];
+    $imagenPropiedad = $propiedad['imagen'];
 
     // Ejecutar el código despues de que el usuario envia el formulario completo
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -155,6 +160,8 @@
 
                 <label for="imagen">Imagen:</label>
                 <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
+
+                <img src="/imagenes/<?php echo $imagenPropiedad; ?>" class="imagen-small">
 
                 <label for="descripcion">Descripción:</label>
                 <textarea id="descripcion" name="descripcion"><?php echo $descripcion; ?></textarea>
