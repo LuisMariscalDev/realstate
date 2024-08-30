@@ -36,9 +36,11 @@
     // Ejecutar el código despues de que el usuario envia el formulario completo
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         
-        // echo "<pre>";
-        // var_dump($_POST);
-        // echo "</pre>";
+        echo "<pre>";
+        var_dump($_POST);
+        echo "</pre>";
+
+        exit;
 
         // echo "<pre>";
         // var_dump($_FILES);
@@ -84,10 +86,6 @@
             $errores[] = "Elige un vendedor";
         }
 
-        if(!$imagen['name'] || $imagen['error']) {
-            $errores[] = 'La imagen es obligatoria';
-        }
-
         // Validar por tamaño (1 Mb máximo)
         $medida = 1000 * 1000;
 
@@ -102,25 +100,27 @@
         // Revisa que el array de errores este vacio
         if(empty($errores)) {
 
-            // Subida de archivos
+            // // Subida de archivos
 
-            // Crear carpeta
-            $carpetaImagenes = '../../imagenes/';
+            // // Crear carpeta
+            // $carpetaImagenes = '../../imagenes/';
 
-            if(!is_dir($carpetaImagenes)) {
-                mkdir($carpetaImagenes);
-            }
+            // if(!is_dir($carpetaImagenes)) {
+            //     mkdir($carpetaImagenes);
+            // }
 
-            // Generar nombre único
-            $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
+            // // Generar nombre único
+            // $nombreImagen = md5( uniqid( rand(), true ) ) . ".jpg";
 
-            // Subir la imagen
-            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+            // // Subir la imagen
+            // move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
             
             // Insertar en la base de datos
-            $query = " INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedores_id) VALUES ( '$titulo', '$precio', '$nombreImagen', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$creado', '$vendedores_id' )";
+            $query = " UPDATE propiedades SET titulo = '$titulo', precio = $precio, descripcion = '$descripcion', habitaciones = $habitaciones, wc = $wc, estacionamiento = $estacionamiento, vendedores_id = $vendedores_id WHERE id = $id";
             
-            // echo $query;
+            echo $query;
+
+            exit;
             
             $resultado = mysqli_query($db, $query);
             
@@ -148,7 +148,7 @@
             </div>
         <?php endforeach; ?>
 
-        <form class="formulario" method="POST" action="/admin/propiedades/crear.php" enctype="multipart/form-data">
+        <form class="formulario" method="POST" enctype="multipart/form-data">
             <fieldset>
                 <legend>Información General</legend>
 
